@@ -20,6 +20,8 @@ void append(char* filename);
 
 void insert(char* filename, long offset);
 
+void overWrite(char* filename);
+
 void printfilestatus(char* filename);
 
 void printdirlisting(char* filedir);
