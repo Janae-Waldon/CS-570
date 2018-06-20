@@ -131,20 +131,31 @@ void createDirectory(char* dirname){
 void printfilestatus(char* filename){
     struct stat info;
     FILE *fp = fopen(filename, "r");
-    int fb = fileno(fp);
     
-    if (fstat(fb, &info) != 0){
-        perror("Error");
-    } else {
-        puts("File Status:");
-        printf("  inode:   %d\n",   (int) info.st_ino);
-        printf(" dev id:   %d\n",   (int) info.st_dev);
-        printf("   mode:   %08x\n",	  info.st_mode);
-        printf("  links:   %d\n",         info.st_nlink);
-        printf("    uid:   %d\n",   (int) info.st_uid);
-        printf("    gid:   %d\n",   (int) info.st_gid);
-    }
-    fclose(fp);
+    /* If file does not exit it will thow error */
+    if(fp == NULL){
+        printf("File failed to open, errno = %d\n", errno);
+        printf("Plase Check the file path or File name. \n");
+    }else{
+              	int fb = fileno(fp);
+
+                /* Thows error in case of function failure */
+                if (fstat(fb, &info) !=  0){
+                        perror("Error");
+                }else {
+                       	puts("File Status:");
+                        printf("  inode:   %d\n",   (int) info.st_ino);
+                        printf(" dev id:   %d\n",   (int) info.st_dev);
+                        printf("   mode:   %08x\n",	  info.st_mode);
+                        printf("  links:   %d\n",         info.st_nlink);
+                        printf("    uid:   %d\n",   (int) info.st_uid);
+                        printf("    gid:   %d\n",   (int) info.st_gid);
+                }
+                /* If file is null it should not invoke fclose, it could cause a segmentation fault*/
+                fclose(fp);
+
+        }
+
 }
 
 void printdirlisting(char* filedir){
