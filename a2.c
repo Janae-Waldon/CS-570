@@ -1,14 +1,10 @@
 #include "a2.h"
-#include <string.h>
-#include <ctype.h>
+
+#include "a2.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <dirent.h>
-#include <unistd.h>
-#include <errno.h>
-
+#include <string.h>
+#include <ctype.h>
 
 int actionPerformed;
 
@@ -85,35 +81,29 @@ void append(char* filename){
     char towrite[80];
     //sets a pointer at the end of the file to append text
     fp = fopen(filename, "a");
-    if(fp == NULL){
-        /* gets the user input into a buffer, then writes it to the specified file */
-        printf("What would you like to append: ");
-        scanf ("%[^\n]%*c", towrite);
-        fprintf (fp,"%s", towrite);
+    //gets the user input into a buffer, then writes it to the specified file
+    printf("What would you like to append: ");
+    scanf ("%[^\n]%*c", towrite);
+    fprintf (fp,"%s", towrite);
     
-        fclose(fp);
-    }else{
-        printf("Error: The File/Path does not exist \n");
-    }
+    fclose(fp);
 }
+
 
 void insert(char* filename, long offset){
     FILE * fp;
     char towrite[80];
     /* open the file for writing */
     fp = fopen (filename,"r+");
-    if(fp == NULL){
-        /* write 10 lines of text into the file stream*/
-        scanf ("%[^\n]%*c", towrite);
-        /* Moves to the specified offset to insert text */
-        fseek(fp, offset, SEEK_SET);
-        fprintf (fp,"%s", towrite);
     
-        /* close the file*/
-        fclose (fp);
-    } else {
-        printf("Error: The File/Path does not exist \n");
-    }
+    /* write 10 lines of text into the file stream*/
+    scanf ("%[^\n]%*c", towrite);
+    /* Moves to the specified offset to insert text */
+    fseek(fp, offset, SEEK_SET);
+    fprintf (fp,"%s", towrite);
+    
+    /* close the file*/
+    fclose (fp);
 }
 
 void overWrite(char* filename){
@@ -122,17 +112,13 @@ void overWrite(char* filename){
     /* open the file for writing*/
     fp = fopen (filename,"w");
     
-    if(fp == NULL){
-        /* write 10 lines of text into the file stream*/
-        scanf ("%[^\n]%*c", towrite);
-        //scanf(stdin, "%s", towrite);
-        fprintf (fp,"%s", towrite);
+    /* write 10 lines of text into the file stream*/
+    scanf ("%[^\n]%*c", towrite);
+    //scanf(stdin, "%s", towrite);
+    fprintf (fp,"%s", towrite);
     
-        /* close the file*/
-        fclose (fp);
-    } else {
-        printf("Error: The File/Path does not exist \n");
-    }
+    /* close the file*/
+    fclose (fp);
 }
 
 void createDirectory(char* dirname){
@@ -328,7 +314,7 @@ void performMenuInstructions(){
                  printf("WRITE TO FILE MODE\n");
                  printf("1. Append\n");
                  printf("2. Insert\n");
-                 printf("3. Overrite\n");
+                 printf("3. Overwrite\n");
                  printf("4. Back\n");
                  printf("0. Exit\n");
                  
@@ -345,7 +331,7 @@ void performMenuInstructions(){
                      printf("2. Back\n");
                      printf("0. Exit\n");
                      
-                     scanf("&d", &appendMenuOption);
+                     scanf("%d", &appendMenuOption);
                      if(appendMenuOption == 1){
                          printf("Filepath: ");
                          scanf("%s", userFilePath);
@@ -370,11 +356,11 @@ void performMenuInstructions(){
                      printf("2. Back\n");
                      printf("0. Exit\n");
                      
-                     scanf("&d", &appendMenuOption);
+                     scanf("%d", &appendMenuOption);
                      if(appendMenuOption == 1){
                          printf("Filepath: ");
                          scanf("%s", userFilePath);
-                         insert(userFilePath);
+                         //insert(userFilePath);
                          continue;
                      }
                      if(appendMenuOption == 2){
@@ -395,7 +381,7 @@ void performMenuInstructions(){
                      printf("2. Back\n");
                      printf("0. Exit\n");
                      
-                     scanf("&d", &appendMenuOption);
+                     scanf("%d", &appendMenuOption);
                      if(appendMenuOption == 1){
                          printf("Filepath: ");
                          scanf("%s", userFilePath);
@@ -417,7 +403,7 @@ void performMenuInstructions(){
                  else{
                      printf("ENTER 1, 2, 3, 4, or 0\n");
                      continue;
-                 }
+            }
         }
         //print file status
         else if(actionPerformed == 5){
@@ -445,6 +431,7 @@ void performMenuInstructions(){
                 continue;
             }
         }
+         }
 
         //print directory listing
         else if(actionPerformed == 6){
@@ -472,10 +459,6 @@ void performMenuInstructions(){
                 continue;
             }
         }
-    } while (actionPerformed != 0);
+         } while (actionPerformed != 0);
 }
 
-int main(int argc, char const *argv[]){
-    performMenuInstructions();
-    return 0;
-}
