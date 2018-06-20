@@ -111,12 +111,13 @@ void printdirlisting(char* filedir){
 
     dp = opendir (filedir);
     if (dp != NULL){
+	printf("Files in Directory: \n");
         while (ep = readdir (dp)){
-            puts (ep->d_name);
+            printf("%s \n", ep->d_name);
         }
         (void) closedir (dp);
     } else{
-        perror ("Couldn't open the directory");
+        printf("Couldn't open the directory \n");
     }
 
 }
