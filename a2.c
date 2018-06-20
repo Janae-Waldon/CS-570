@@ -79,13 +79,16 @@ void append(char* filename){
     char towrite[80];
     //sets a pointer at the end of the file to append text
     fp = fopen(filename, "a");
+    if(fp == NULL){
+        /* gets the user input into a buffer, then writes it to the specified file */
+        printf("What would you like to append: ");
+        scanf ("%[^\n]%*c", towrite);
+        fprintf (fp,"%s", towrite);
     
-    //gets the user input into a buffer, then writes it to the specified file
-    printf("What would you like to append: ");
-    scanf ("%[^\n]%*c", towrite);
-    fprintf (fp,"%s", towrite);
-    
-    fclose(fp);
+        fclose(fp);
+    }else{
+        printf("Error: The File/Path does not exist \n");
+    }
 }
 
 void insert(char* filename, long offset){
@@ -93,15 +96,18 @@ void insert(char* filename, long offset){
     char towrite[80];
     /* open the file for writing */
     fp = fopen (filename,"r+");
+    if(fp == NULL){
+        /* write 10 lines of text into the file stream*/
+        scanf ("%[^\n]%*c", towrite);
+        /* Moves to the specified offset to insert text */
+        fseek(fp, offset, SEEK_SET);
+        fprintf (fp,"%s", towrite);
     
-    /* write 10 lines of text into the file stream*/
-    scanf ("%[^\n]%*c", towrite);
-    /* Moves to the specified offset to insert text */
-    fseek(fp, offset, SEEK_SET);
-    fprintf (fp,"%s", towrite);
-    
-    /* close the file*/
-    fclose (fp);
+        /* close the file*/
+        fclose (fp);
+    } else {
+        printf("Error: The File/Path does not exist \n");
+    }
 }
 
 void overWrite(char* filename){
@@ -110,13 +116,17 @@ void overWrite(char* filename){
     /* open the file for writing*/
     fp = fopen (filename,"w");
     
-    /* write 10 lines of text into the file stream*/
-    scanf ("%[^\n]%*c", towrite);
-    //scanf(stdin, "%s", towrite);
-    fprintf (fp,"%s", towrite);
+    if(fp == NULL){
+        /* write 10 lines of text into the file stream*/
+        scanf ("%[^\n]%*c", towrite);
+        //scanf(stdin, "%s", towrite);
+        fprintf (fp,"%s", towrite);
     
-    /* close the file*/
-    fclose (fp);
+        /* close the file*/
+        fclose (fp);
+    } else {
+        printf("Error: The File/Path does not exist \n");
+    }
 }
 
 void createDirectory(char* dirname){
