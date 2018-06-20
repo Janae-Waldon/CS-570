@@ -12,21 +12,14 @@
 #include <errno.h>
 
 void createfile(char* filename);
-
 void readfile(char* filename);
-
 int writefile(char* filename);
-
 void append(char* filename);
-
 void insert(char* filename, long offset);
-
 void overWrite(char* filename);
-
 void printfilestatus(char* filename);
-
 void printdirlisting(char* filedir);
-
+void performMenuInstructions();
 void sortalpha();
 
 void reversesortalpha();
