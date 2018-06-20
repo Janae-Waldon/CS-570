@@ -1,3 +1,6 @@
+#ifndef A2_H
+#define A2_H
+
 #include <string.h>
 #include <ctype.h>
 #include <stdio.h>
@@ -20,3 +23,5 @@ void printdirlisting(char* filedir);
 void sortalpha();
 
 void reversesortalpha();
+
+#endif
