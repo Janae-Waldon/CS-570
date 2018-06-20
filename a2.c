@@ -99,6 +99,22 @@ void insert(char* filename, long offset){
     /* close the file*/
     fclose (fp);
 }
+
+void overWrite(char* filename){
+    FILE * fp;
+    char towrite[80];
+    /* open the file for writing*/
+    fp = fopen (filename,"w");
+    
+    /* write 10 lines of text into the file stream*/
+    scanf ("%[^\n]%*c", towrite);
+    //scanf(stdin, "%s", towrite);
+    fprintf (fp,"%s", towrite);
+    
+    /* close the file*/
+    fclose (fp);
+}
+
 void createDirectory(char* dirname){
     int dir;
     /*Makes a directory with a name passed by the user;
