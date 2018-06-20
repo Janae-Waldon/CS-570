@@ -71,6 +71,19 @@ int writefile(char* filename)
     return 0;
 }
 
+void append(char* filename){
+    FILE * fp;
+    char towrite[80];
+    //sets a pointer at the end of the file to append text
+    fp = fopen(filename, "a");
+    
+    //gets the user input into a buffer, then writes it to the specified file
+    scanf ("%[^\n]%*c", towrite);
+    fprintf (fp,"%s", towrite);
+    
+    fclose(fp);
+}
+
 void createDirectory(char* dirname){
     int dir;
     /*Makes a directory with a name passed by the user;
