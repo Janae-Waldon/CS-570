@@ -74,12 +74,39 @@ void createDirectory(){
     
 }
 
-void printfilestatus(){
-    
+void printfilestatus(char* filename){
+    struct stat info;
+    FILE *fp = fopen(filename, "r");
+    int fb = fileno(fp);
+
+    if (fstat(fb, &info) != 0){
+        perror("Error");
+    } else {
+        puts("File Status:");
+        printf("  inode:   %d\n",   (int) info.st_ino);
+        printf(" dev id:   %d\n",   (int) info.st_dev);
+        printf("   mode:   %08x\n",	  info.st_mode);
+        printf("  links:   %d\n",         info.st_nlink);
+        printf("    uid:   %d\n",   (int) info.st_uid);
+        printf("    gid:   %d\n",   (int) info.st_gid);
+    }
+	fclose(fp);
 }
 
-void printdirlisting(){
-    
+void printdirlisting(char* filedir){
+    DIR *dp;
+    struct dirent *ep;
+
+    dp = opendir (filedir);
+    if (dp != NULL){
+        while (ep = readdir (dp)){
+            puts (ep->d_name);
+        }
+        (void) closedir (dp);
+    } else{
+        perror ("Couldn't open the directory");
+    }
+
 }
 
 void sortalpha(){
