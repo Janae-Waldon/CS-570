@@ -21,6 +21,7 @@ void printfilestatus(char* filename);
 void printdirlisting(char* filedir);
 void performMenuInstructions();
 void sortalpha();
+void menu();
 
 void reversesortalpha();
 
