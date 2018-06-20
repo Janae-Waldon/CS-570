@@ -84,6 +84,21 @@ void append(char* filename){
     fclose(fp);
 }
 
+void insert(char* filename, long offset){
+    FILE * fp;
+    char towrite[80];
+    /* open the file for writing */
+    fp = fopen (filename,"r+");
+    
+    /* write 10 lines of text into the file stream*/
+    scanf ("%[^\n]%*c", towrite);
+    /* Moves to the specified offset to insert text */
+    fseek(fp, offset, SEEK_SET);
+    fprintf (fp,"%s", towrite);
+    
+    /* close the file*/
+    fclose (fp);
+}
 void createDirectory(char* dirname){
     int dir;
     /*Makes a directory with a name passed by the user;
