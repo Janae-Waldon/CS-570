@@ -192,8 +192,31 @@ void sortalpha(char* filename){
 
 }
 
-void reversesortalpha(){
+void sortalpha(char* filename){
+      FILE *fp = fopen(filename, "r");
+      char src[50], dest[50];
+      strcpy(dest,"reversesorted");
+      strcpy(src,filename);
+      strcat(dest,src);
+      strcpy(src,".bak");
+      strcat(dest,src);
 
+
+      FILE *newAlphaFile=fopen(dest,"w");
+          char text[256];
+          char *words[100];
+          char *word;
+          int wmax=0, i;
+          fscanf(fp,"%[^\0]", text);
+          for(word = strtok(text, " "); word ; word = strtok(NULL, " ")){
+              words[wmax++] = word;
+          }
+          qsort(words, wmax, sizeof(*words), cmp);
+          for(i=wmax-1;i>0;i--)
+              fprintf(newAlphaFile, "%s ", words[i]);
+    fclose(fp);
+    fclose(newAlphaFile);
+          return;
 }
 
 void menu(){
