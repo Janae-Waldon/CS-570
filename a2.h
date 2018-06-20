@@ -1,81 +1,22 @@
+#include <string.h>
+#include <ctype.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <dirent.h>
+#include <unistd.h>
 
-void createfile(char* filename){
-    FILE *fp;
-    fp=fopen(filename,"w");
-    fclose(fp);
-    return ;
-}
+void createfile(char* filename);
 
-void readfile(char* filename){
-    FILE *fp;
-    // Open file
-    char  c;
-    fp = fopen(filename, "r");
-    if (fp == NULL)
-    {
-        printf("Cannot open file \n");
-        exit(0); //TODO make this not exit but return to main menu instead
-    }
+void readfile(char* filename);
 
-    // Read contents from file
-    c = fgetc(fp);
-    while (c != EOF)
-    {
-        printf ("%c", c);
-        c = fgetc(fp);
-    }
+int writefile(char* filename);
 
-    fclose(fp);
-    return;
-}
+void printfilestatus(char* filename);
 
-int writefile(char* filename){
-     FILE * fp;
-     char towrite[80];
-     /* open the file for writing*/
-     fp = fopen (filename,"w");
+void printdirlisting(char* filedir);
 
-     /* write 10 lines of text into the file stream*/
-     scanf ("%[^\n]%*c", towrite);
-     //scanf(stdin, "%s", towrite);
-     fprintf (fp,"%s", towrite);
+void sortalpha();
 
-     /* close the file*/
-     fclose (fp);
-
-     //TODO: gotta fork those proccess per assingment request
-
-     pid_t childPID = fork();
-
-     if(childPID >= 0) {
-        if(childPID == 0){
-          //TODO: run alpha sort
-        }
-        else{
-        //TODO: run reverse alpha sort
-        }
-   }
-    else{
-    printf("\n Fork failed, quitting.\n");
-    return 1;
-    }
-     return 0;
-}
-
-
-
-void printfilestatus(){
-
-}
-
-void printdirlisting(){
-
-}
-
-void sortalpha(){
-
-}
-
-void reversesortalpha(){
-
-}
+void reversesortalpha();
