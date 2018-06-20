@@ -1,4 +1,8 @@
 #include "a2.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
 
 int actionPerformed;
 
@@ -22,6 +26,7 @@ void readfile(char* filename){
         exit(0); //TODO make this not exit but return to main menu instead
     }
     
+    printf("%s Contains: \n", userFilePath);
     // Read contents from file
     c = fgetc(fp);
     while (c != EOF)
@@ -76,6 +81,7 @@ void append(char* filename){
     fp = fopen(filename, "a");
     
     //gets the user input into a buffer, then writes it to the specified file
+    printf("What would you like to append: ");
     scanf ("%[^\n]%*c", towrite);
     fprintf (fp,"%s", towrite);
     
@@ -131,31 +137,20 @@ void createDirectory(char* dirname){
 void printfilestatus(char* filename){
     struct stat info;
     FILE *fp = fopen(filename, "r");
+    int fb = fileno(fp);
     
-    /* If file does not exit it will thow error */
-    if(fp == NULL){
-        printf("File failed to open, errno = %d\n", errno);
-        printf("Plase Check the file path or File name. \n");
-    }else{
-              	int fb = fileno(fp);
-
-                /* Thows error in case of function failure */
-                if (fstat(fb, &info) !=  0){
-                        perror("Error");
-                }else {
-                       	puts("File Status:");
-                        printf("  inode:   %d\n",   (int) info.st_ino);
-                        printf(" dev id:   %d\n",   (int) info.st_dev);
-                        printf("   mode:   %08x\n",	  info.st_mode);
-                        printf("  links:   %d\n",         info.st_nlink);
-                        printf("    uid:   %d\n",   (int) info.st_uid);
-                        printf("    gid:   %d\n",   (int) info.st_gid);
-                }
-                /* If file is null it should not invoke fclose, it could cause a segmentation fault*/
-                fclose(fp);
-
-        }
-
+    if (fstat(fb, &info) != 0){
+        perror("Error");
+    } else {
+        puts("File Status:");
+        printf("  inode:   %d\n",   (int) info.st_ino);
+        printf(" dev id:   %d\n",   (int) info.st_dev);
+        printf("   mode:   %08x\n",	  info.st_mode);
+        printf("  links:   %d\n",         info.st_nlink);
+        printf("    uid:   %d\n",   (int) info.st_uid);
+        printf("    gid:   %d\n",   (int) info.st_gid);
+    }
+    fclose(fp);
 }
 
 void printdirlisting(char* filedir){
@@ -196,7 +191,8 @@ void menu(){
 
 void performMenuInstructions(){
     int subMenuOption;
-    int subMenuOption_2;
+    int writeModeMenuOption;
+    int appendMenuOption;
     
     do{
         menu();
@@ -253,9 +249,8 @@ void performMenuInstructions(){
                 //} while (filepath = NULL);
                 //continue;
                 //cast to directory path
-                
-                
                 createfile(userFilePath);
+                printf("File has been added to filepath.\n");
                 continue;
             }
             if(subMenuOption == 0){
@@ -268,11 +263,11 @@ void performMenuInstructions(){
                 printf("ENTER 1, 2, or 0\n");
                 printf("\n");
                 continue;
-            }
+            } //while (subMenuOption != sucessfulSearch);
         }
-   /*
-        //3. Read an existing file
-         another submenu that reads & opens file and prints the contents to stdout //
+
+        /*3. Read an existing file
+         another submenu that reads & opens file and prints the contents to stdout */
         else if(actionPerformed == 3){
             
             printf("1. Read a file\n");
@@ -283,16 +278,8 @@ void performMenuInstructions(){
             if(subMenuOption == 1){
                 printf("File path: ");
                 scanf("%s", userFilePath);
-                //get path of directory (open)
-                //if (filepath = NULL)
-                //do{
-                //printf("Directory doen't exist!\n");
-                //} while (filepath = NULL);
-                //continue;
-                //cast to directory path
-                scanf("%s", userFilename);
-                printf("Contents of file: \n");
-                //printf("%", readfile(userFilename));
+                readfile(userFilePath);
+                continue;
             }
             if(subMenuOption == 0){
                 break;
@@ -305,57 +292,117 @@ void performMenuInstructions(){
                 continue;
             }
         }
-        // Finish this in the morning
          
          //write to an existing file (in insert, append, or overwite mode)
          else if(actionPerformed == 4){
          
+             printf("1. Write to a file\n");
+             printf("2. Back\n");
+             printf("0. Exit\n");
          
-         printf("1. Write to a file\n");
-         printf("2. Back\n");
-         printf("0. Exit\n");
-         
-         scanf("%d", &subMenuOption);
-         if(subMenuOption == 1){
-         printf("File path: ");
-         scanf("%s", userFilePath);
-         //get path of directory (open)
-         //if (filepath = NULL)
-         //do{
-         //printf("Directory doen't exist!\n");
-         //} while (filepath = NULL);
-         //continue;
-         //cast to directory path
-         
-         printf("1. Append\n");
-         printf("2. Insert\n");
-         printf("0. Overrite\n");
-         printf("2. Back\n");
-         printf("0. Exit\n");
-         
-         scanf("%s", userFilename);
-         printf("Contents of file: \n");
-         //printf("%", readfile(userFilename));
-         }
-         if(subMenuOption == 0){
-         break;
-         }
-         if(subMenuOption == 2){
-         continue;
-         }
-         else{
-         printf("ENTER 1, 2, or 0\n");
-         continue;
-         }
-         }
-         
-         case 6:
-         printf("Filename: ");
-         //scan & store
-         writefile(userFilename);
-         break;
-         */
-        
+             scanf("%d", &subMenuOption);
+             if(subMenuOption == 0){
+                 break;
+             }
+             if(subMenuOption == 2){
+                 continue;
+             }
+             if(subMenuOption == 1){
+                 
+                 printf("WRITE TO FILE MODE\n");
+                 printf("1. Append\n");
+                 printf("2. Insert\n");
+                 printf("3. Overrite\n");
+                 printf("4. Back\n");
+                 printf("0. Exit\n");
+                 
+                 scanf("%d", &writeModeMenuOption);
+                 if(writeModeMenuOption == 0){
+                     break;
+                 }
+                 if(writeModeMenuOption == 4){
+                     continue;
+                 }
+                 if(writeModeMenuOption == 1){
+                     
+                     printf("1. Append\n");
+                     printf("2. Back\n");
+                     printf("0. Exit\n");
+                     
+                     scanf("&d", &appendMenuOption);
+                     if(appendMenuOption == 1){
+                         printf("Filepath: ");
+                         scanf("%s", userFilePath);
+                         append(userFilePath);
+                         continue;
+                     }
+                     if(writeModeMenuOption == 2){
+                         continue;
+                     }
+                     if(writeModeMenuOption == 0){
+                         break;
+                     }
+                     else{
+                         printf("ENTER 1, 2, or 0\n");
+                         continue;
+                     }
+                     continue;
+                 }
+                 if(writeModeMenuOption == 2){
+                     //insert
+                     printf("1. Insert\n");
+                     printf("2. Back\n");
+                     printf("0. Exit\n");
+                     
+                     scanf("&d", &appendMenuOption);
+                     if(appendMenuOption == 1){
+                         printf("Filepath: ");
+                         scanf("%s", userFilePath);
+                         insert(userFilePath);
+                         continue;
+                     }
+                     if(appendMenuOption == 2){
+                         continue;
+                     }
+                     if(appendMenuOption == 0){
+                         break;
+                     }
+                     else{
+                         printf("ENTER 1, 2, or 0\n");
+                         continue;
+                     }
+                     continue;
+                 }
+                 if(writeModeMenuOption == 4){
+                     //overWrite
+                     printf("1. Overwrite\n");
+                     printf("2. Back\n");
+                     printf("0. Exit\n");
+                     
+                     scanf("&d", &appendMenuOption);
+                     if(appendMenuOption == 1){
+                         printf("Filepath: ");
+                         scanf("%s", userFilePath);
+                         overWrite(userFilePath);
+                         continue;
+                     }
+                     if(appendMenuOption == 2){
+                         continue;
+                     }
+                     if(appendMenuOption == 0){
+                         break;
+                     }
+                     else{
+                         printf("ENTER 1, 2, or 0\n");
+                         continue;
+                     }
+                     continue;
+                 }
+                 else{
+                     printf("ENTER 1, 2, 3, 4, or 0\n");
+                     continue;
+                 }
+        }
         //print file status
         else if(actionPerformed == 5){
             
@@ -367,13 +414,7 @@ void performMenuInstructions(){
             if(subMenuOption == 1){
                 printf("File path: ");
                 scanf("%s", userFilePath);
-                //get path of directory (open)
-                //if (filepath = NULL)
-                //do{
-                //printf("Directory doen't exist!\n");
-                //} while (filepath = NULL);
-                //continue;
-                //cast to directory path
+
                 printfilestatus(userFilePath);
                 continue;
             }
@@ -400,13 +441,7 @@ void performMenuInstructions(){
             if(subMenuOption == 1){
                 printf("File path: ");
                 scanf("%s", userFilePath);
-                //get path of directory (open)
-                //if (filepath = NULL)
-                //do{
-                //printf("Directory doen't exist!\n");
-                //} while (filepath = NULL);
-                //continue;
-                //cast to directory path
+            
                 printdirlisting(userFilePath);
                 continue;
             }
@@ -421,6 +456,10 @@ void performMenuInstructions(){
                 continue;
             }
         }
-
     } while (actionPerformed != 0);
+}
+
+int main(int argc, char const *argv[]){
+    performMenuInstructions();
+    return 0;
 }
