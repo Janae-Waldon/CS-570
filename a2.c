@@ -65,8 +65,19 @@ int writefile(char* filename)
     return 0;
 }
 
-void createDirectory(){
-    
+void createDirectory(char* dirname){
+    int dir;
+    /*Makes a directory with a name passed by the user;
+      All the variables starting with "S_" denote the user permissions.
+      S_IRUSER = permission to read by owner
+      S_IWUSR  = permission to write by owner
+      S_IRGRP  = permission to read by group
+      S_IROTH  = permission to read by others
+      S_IXUSR  = owner has executable permissions
+      S_IXGRP  = group has executable permission
+      S_IXOTH  = others have executable permission
+    */
+    dir = mkdir(dirname, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH | S_IXUSR | S_IXGRP | S_IXOTH);
 }
 
 void printfilestatus(char* filename){
