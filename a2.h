@@ -19,7 +19,8 @@ void insert(char* filename, long offset);
 void overWrite(char* filename);
 void printfilestatus(char* filename);
 void printdirlisting(char* filedir);
-void performMenuInstructions();
+void mainmenu();
+void writefilemenu();
 void sortalpha();
 void menu();
 
