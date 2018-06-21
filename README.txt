@@ -81,4 +81,12 @@ Janae Waldon, cssc1183
 	- If the user writes to file inside a directory it will name the reverse order as "file.txtreverseorder.bak" instead of "reverseorderfile.txt.bak"
 
 7) Lessons Learned:
-	
+	 We learned to implement a multi-processing file editor with the following functions:
+	 1. Create new directory files
+	 2. Create new regular files
+	 3. Create child process to write sorted output
+	 4. Create child process to shadow write/read regular files
+	 5. Read from a file (print out to stdout)
+	 6. Write to a file in either insert, append, or overwrite mode
+	 7. Print file status (print out to stdout)
+	 8. Print directory listing (contents of dir file) (print out to stdout)
