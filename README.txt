@@ -8,7 +8,7 @@ Janae Waldon, cssc1183
   main.c
 
 2) Compile instructions:
-	makefile
+	open the file & type 'make' into the command line
 
 3) Operating instructions (include any/all command line options/arguments, required inputs, etc):
     - Program will output a Menu, the user will have to input the number they want.
